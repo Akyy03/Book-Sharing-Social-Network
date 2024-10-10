@@ -1,0 +1,37 @@
+services:
+  mysql:
+    container_name: mysql-bsn
+    image: mysql:8
+    environment:
+      MYSQL_USER: username
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: book_social_network
+    volumes:
+      - mysql:/var/lib/mysql
+    ports:
+      - 3306:3306
+    networks:
+      spring-demo
+    restart: unless-stopped
+
+  mail-dev:
+    container_name: mail-dev-bsn
+    image: maildev/maildev
+    ports:
+      - 1080:1080
+      - 1025:1025
+
+networks:
+  spring-demo:
+    driver: bridge
+
+volumes:
+  mysql:
+    driver: local
+
+application:
+  security:
+    jwt:
+      secret-key: 83ca27376e8c4d03b0b41ace8bce5c7d980b0b4d8ea4814b20bfd9559770cdf1
+      expiration: 86400000

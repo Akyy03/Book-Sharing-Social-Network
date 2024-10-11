@@ -10,7 +10,7 @@ services:
     volumes:
       - mysql:/var/lib/mysql
     ports:
-      - 3306:3306
+      - 3307:3306
     networks:
       spring-demo
     restart: unless-stopped
@@ -30,8 +30,36 @@ volumes:
   mysql:
     driver: local
 
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3307/book_social_network
+    username: username
+    password: password
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+  mail:
+    host: localhost
+    port: 1025
+    username: username
+    password: password
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
 application:
   security:
     jwt:
       secret-key: 83ca27376e8c4d03b0b41ace8bce5c7d980b0b4d8ea4814b20bfd9559770cdf1
       expiration: 86400000
+  mailing:
+    frontend:
+      activation-url: http://localhost:4200/activate-account
+server:
+  port: 8088
